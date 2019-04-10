@@ -6,12 +6,24 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
+import Spinner from "../Spinner/Spinner";
+
 class Todo extends React.Component {
   render() {
     const { items } = this.props;
 
-    let output = null;
-
+    let output = (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "10rem"
+        }}
+      >
+        <Spinner />
+      </div>
+    );
     if (items) {
       const todoItemsOutput = items.map(item => (
         <TodoItem
@@ -25,24 +37,17 @@ class Todo extends React.Component {
 
       console.log(todoItemsOutput);
 
-      output = (
-        <>
-          <div className="row">
-            <div className="col-md-6">
-              <h2>
-                <i className="fas fa-list" /> Todo
-              </h2>
-            </div>
-            <div className="col-md-6" />
-          </div>
-          <div className="row">{todoItemsOutput}</div>
-        </>
-      );
-    } else {
-      output = <h1>Loading</h1>;
+      output = <div className="row">{todoItemsOutput}</div>;
     }
 
-    return output;
+    return (
+      <>
+        <h2>
+          <i className="fas fa-list" /> Todo
+        </h2>
+        {output}
+      </>
+    );
   }
 }
 
