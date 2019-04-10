@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AppNavbar from "./components/layout/AppNavbar";
+import Dashboard from "./components/layout/Dashboard";
 
 class App extends Component {
   render() {
@@ -8,6 +9,11 @@ class App extends Component {
       <Router>
         <div className="App">
           <AppNavbar />
+          <div className="container">
+            <Switch>
+              <Route exact="/" component={Dashboard} />
+            </Switch>
+          </div>
         </div>
       </Router>
     );
