@@ -2,6 +2,7 @@ import React from "react";
 
 export default function TodoItem(props) {
   const { title, content, createdAt, isCompleted } = props;
+
   return (
     <div className="col-md-6">
       <div className="card mb-4">
@@ -20,7 +21,9 @@ export default function TodoItem(props) {
             Delete
           </a>
         </div>
-        <div className="card-footer text-muted text-center">{createdAt}</div>
+        <div className="card-footer text-muted text-center">
+          {createdAt.toDate().toString()}
+        </div>
       </div>
     </div>
   );
