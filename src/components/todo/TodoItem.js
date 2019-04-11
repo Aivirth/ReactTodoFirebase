@@ -10,7 +10,7 @@ export default function TodoItem(props) {
   );
 
   return (
-    <div className="col-md-12">
+    <div className="col-md-6">
       <div className="card mb-4">
         <div className="card-header d-flex align-items-center">
           <h5 className="m-0">{title}</h5>
@@ -19,11 +19,14 @@ export default function TodoItem(props) {
         <div className="card-body">
           <p className="card-text">{content}</p>
         </div>
-        <div className="card-body d-flex align-items-stretch">
-          <a href="#!" className="btn btn-primary btn-block m-auto">
+        <div className="card-body">
+          <a href="#!" className="btn btn-success btn-block btn-sm">
+            Complete
+          </a>
+          <a href="#!" className="btn btn-primary btn-block btn-sm">
             Edit
           </a>
-          <a href="#!" className="btn btn-danger btn-block m-auto">
+          <a href="#!" className="btn btn-danger btn-block btn-sm">
             Delete
           </a>
         </div>
