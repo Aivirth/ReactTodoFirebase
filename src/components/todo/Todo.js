@@ -51,7 +51,7 @@ class Todo extends React.Component {
         <TodoItem
           title={item.title}
           content={item.content}
-          createdAt={item.createdAt}
+          dueDate={item.dueDate}
           isCompleted={item.isCompleted}
           key={item.id}
         />

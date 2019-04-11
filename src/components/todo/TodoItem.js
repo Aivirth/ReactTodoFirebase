@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function TodoItem(props) {
-  const { title, content, createdAt, isCompleted } = props;
+  const { title, content, dueDate, isCompleted } = props;
 
   const status = isCompleted ? (
     <span className="badge badge-success d-block ml-auto">Completed</span>
@@ -31,7 +31,7 @@ export default function TodoItem(props) {
           </a>
         </div>
         <div className="card-footer text-muted text-center">
-          {createdAt.toDate().toString()}
+          {dueDate.toDate().toString()}
         </div>
       </div>
     </div>

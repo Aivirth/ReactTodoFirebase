@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import PropTypes from "prop-types";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
 import "react-datepicker/dist/react-datepicker.css";
 
 class AddItem extends Component {
@@ -22,6 +26,21 @@ class AddItem extends Component {
     });
   };
 
+  onFormSubmit = e => {
+    e.preventDefault();
+
+    const { firestore } = this.props;
+
+    const newItem = { ...this.state };
+
+    newItem.isCompleted = false;
+
+    newItem.dueDate = newItem.startDate;
+
+    delete newItem.startDate;
+
+    firestore.add({ collection: "items" }, newItem);
+  };
   render() {
     return (
       <>
@@ -36,7 +55,7 @@ class AddItem extends Component {
         <div className="card">
           <div className="card-header">Add Client</div>
           <div className="card-body">
-            <form>
+            <form onSubmit={this.onFormSubmit}>
               <div className="form-group">
                 <label htmlFor="title">Title</label>
                 <input
@@ -68,6 +87,7 @@ class AddItem extends Component {
 
                 <div className="d-block">
                   <DatePicker
+                    inline
                     selected={this.state.startDate}
                     onChange={this.onDateChange}
                     showTimeSelect
@@ -79,6 +99,12 @@ class AddItem extends Component {
                   />
                 </div>
               </div>
+
+              <input
+                type="submit"
+                value="Create"
+                className="btn-block btn btn-primary"
+              />
             </form>
           </div>
         </div>
@@ -87,4 +113,4 @@ class AddItem extends Component {
   }
 }
 
-export default AddItem;
+export default firestoreConnect()(AddItem);
