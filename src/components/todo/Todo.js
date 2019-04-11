@@ -42,9 +42,15 @@ class Todo extends React.Component {
 
     return (
       <>
-        <h2>
-          <i className="fas fa-list" /> Todo
+        <h2 className="mb-3 d-flex">
+          <span className="d-block">
+            <i className="fas fa-list" /> Todo
+          </span>
+          <span className="badge badge-primary d-block ml-auto">
+            Completed : X
+          </span>
         </h2>
+
         {output}
       </>
     );
