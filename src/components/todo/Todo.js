@@ -9,8 +9,30 @@ import { firestoreConnect } from "react-redux-firebase";
 import Spinner from "../Spinner/Spinner";
 
 class Todo extends React.Component {
+  state = {
+    totalCompleted: 0,
+    totalItems: 0
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    const { items } = props;
+
+    if (items) {
+      const totalItems = items.length;
+      const totalCompleted = items.filter(item => item.isCompleted).length;
+
+      return {
+        totalCompleted,
+        totalItems
+      };
+    }
+
+    return null;
+  }
+
   render() {
     const { items } = this.props;
+    const { totalCompleted, totalItems } = this.state;
 
     let output = (
       <div
@@ -35,8 +57,6 @@ class Todo extends React.Component {
         />
       ));
 
-      console.log(todoItemsOutput);
-
       output = <div className="row">{todoItemsOutput}</div>;
     }
 
@@ -47,7 +67,7 @@ class Todo extends React.Component {
             <i className="fas fa-list" /> Todo
           </span>
           <span className="badge badge-primary d-block ml-auto">
-            Completed : X
+            Completed : {totalCompleted} / {totalItems}
           </span>
         </h2>
 
