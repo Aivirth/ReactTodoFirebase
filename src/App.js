@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import AppNavbar from "./components/layout/AppNavbar";
 import Dashboard from "./components/layout/Dashboard";
+import AddItem from "./components/todo/AddItem";
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route path="/" exact component={Dashboard} />
+                <Route path="/todo/add" exact component={AddItem} />
               </Switch>
             </div>
           </div>
