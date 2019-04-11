@@ -1,15 +1,24 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class AddItem extends Component {
   state = {
     title: "",
-    content: ""
+    content: "",
+    startDate: new Date()
   };
 
   onInputChange = e => {
     this.setState({
       [e.target.name]: e.target.value
+    });
+  };
+
+  onDateChange = date => {
+    this.setState({
+      startDate: date
     });
   };
 
@@ -52,6 +61,23 @@ class AddItem extends Component {
                   value={this.state.content}
                   required
                 />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="dueDate">Due</label>
+
+                <div className="d-block">
+                  <DatePicker
+                    selected={this.state.startDate}
+                    onChange={this.onDateChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    timeCaption="time"
+                    name="dueDate"
+                  />
+                </div>
               </div>
             </form>
           </div>
