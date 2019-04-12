@@ -28,20 +28,20 @@ class AddItem extends Component {
 
   onFormSubmit = e => {
     e.preventDefault();
-
-    const { firestore } = this.props;
-
+    const { firestore, history } = this.props;
     const newItem = { ...this.state };
-
     newItem.isCompleted = false;
-
     newItem.dueDate = newItem.startDate;
-
     delete newItem.startDate;
 
-    firestore.add({ collection: "items" }, newItem);
+    firestore
+      .add({ collection: "items" }, newItem)
+      .catch(err => console.log(err))
+      .then(history.push("/"));
   };
   render() {
+    const alert = null;
+
     return (
       <>
         <div className="row">
@@ -114,3 +114,7 @@ class AddItem extends Component {
 }
 
 export default firestoreConnect()(AddItem);
+
+AddItem.propTypes = {
+  firestore: PropTypes.object.isRequired
+};
