@@ -46,6 +46,7 @@ class Todo extends React.Component {
         <Spinner />
       </div>
     );
+
     if (items) {
       const todoItemsOutput = items.map(item => (
         <TodoItem
@@ -53,6 +54,7 @@ class Todo extends React.Component {
           content={item.content}
           dueDate={item.dueDate}
           isCompleted={item.isCompleted}
+          id={item.id}
           key={item.id}
         />
       ));

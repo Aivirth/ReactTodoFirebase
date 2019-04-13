@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function TodoItem(props) {
-  const { title, content, dueDate, isCompleted } = props;
+  const { title, content, dueDate, isCompleted, id } = props;
 
   const status = isCompleted ? (
     <span className="badge badge-success d-block ml-auto">Completed</span>
@@ -23,7 +24,7 @@ export default function TodoItem(props) {
           <a href="#!" className="btn btn-success btn-block btn-sm">
             Complete
           </a>
-          <a href="#!" className="btn btn-primary btn-block btn-sm">
+          <a href={`/edit/${id}`} className="btn btn-primary btn-block btn-sm">
             Edit
           </a>
           <a href="#!" className="btn btn-danger btn-block btn-sm">

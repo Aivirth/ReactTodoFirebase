@@ -39,9 +39,8 @@ class AddItem extends Component {
       .catch(err => console.log(err))
       .then(history.push("/"));
   };
-  render() {
-    const alert = null;
 
+  render() {
     return (
       <>
         <div className="row">
@@ -53,7 +52,7 @@ class AddItem extends Component {
         </div>
 
         <div className="card">
-          <div className="card-header">Add Client</div>
+          <div className="card-header">Add Item</div>
           <div className="card-body">
             <form onSubmit={this.onFormSubmit}>
               <div className="form-group">

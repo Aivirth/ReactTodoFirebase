@@ -5,6 +5,7 @@ import store from "./redux/store";
 import AppNavbar from "./components/layout/AppNavbar";
 import Dashboard from "./components/layout/Dashboard";
 import AddItem from "./components/todo/AddItem";
+import EditItem from "./components/todo/EditItem";
 
 class App extends Component {
   render() {
@@ -16,7 +17,8 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route path="/" exact component={Dashboard} />
-                <Route path="/todo/add" exact component={AddItem} />
+                <Route path="/add" exact component={AddItem} />
+                <Route path="/edit/:id" exact component={EditItem} />
               </Switch>
             </div>
           </div>
