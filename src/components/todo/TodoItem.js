@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-export default function TodoItem(props) {
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { firestore } from "firebase";
+const TodoItem = props => {
   const { title, content, dueDate, isCompleted, id } = props;
 
   const status = isCompleted ? (
@@ -9,6 +12,16 @@ export default function TodoItem(props) {
   ) : (
     <span className="badge badge-secondary d-block ml-auto">Not Completed</span>
   );
+
+  const onDeleteClick = e => {
+    e.preventDefault();
+    const { id, firestore } = props;
+
+    firestore
+      .delete({ collection: "items", doc: id })
+      .catch(err => console.log(err))
+      .then(console.log("success"));
+  };
 
   return (
     <div className="col-md-6">
@@ -24,12 +37,18 @@ export default function TodoItem(props) {
           <a href="#!" className="btn btn-success btn-block btn-sm">
             Complete
           </a>
-          <a href={`/edit/${id}`} className="btn btn-primary btn-block btn-sm">
+          <Link
+            href={`/edit/${id}`}
+            className="btn btn-primary btn-block btn-sm"
+          >
             Edit
-          </a>
-          <a href="#!" className="btn btn-danger btn-block btn-sm">
+          </Link>
+          <button
+            onClick={onDeleteClick}
+            className="btn btn-danger btn-block btn-sm"
+          >
             Delete
-          </a>
+          </button>
         </div>
         <div className="card-footer text-muted text-center">
           {dueDate.toDate().toString()}
@@ -37,4 +56,6 @@ export default function TodoItem(props) {
       </div>
     </div>
   );
-}
+};
+
+export default firestoreConnect()(TodoItem);
