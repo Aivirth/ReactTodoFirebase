@@ -83,13 +83,10 @@ class EditItem extends React.Component {
         </button>
       );
 
-      const { title, content, dueDate, isCompleted, id } = this.state;
+      const { title, content, dueDate } = this.state;
       output = (
         <div className="card">
           <div className="card-header">Edit Item</div>
-          <h1>
-            {id} : {isCompleted ? "completed" : "not completed"}
-          </h1>
           <div className="card-body">
             <form onSubmit={this.onFormSubmit}>
               <div className="form-group">
@@ -137,7 +134,7 @@ class EditItem extends React.Component {
               </div>
 
               <div className="form-group">
-                <label htmlFor="isCompleted">Is Completed ?</label>
+                <label htmlFor="isCompleted">Is Completed? </label>{" "}
                 {completeToggle}
               </div>
 

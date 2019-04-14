@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { compose } from "redux";
-import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
-import { firestore } from "firebase";
 const TodoItem = props => {
-  const { title, content, dueDate, isCompleted, id } = props;
+  const { title, content, dueDate, id } = props;
+  let [isCompleted, setIsCompleted] = useState(props.isCompleted);
 
-  const status = isCompleted ? (
-    <span className="badge badge-success d-block ml-auto">Completed</span>
-  ) : (
-    <span className="badge badge-secondary d-block ml-auto">Not Completed</span>
-  );
+  const onCompletedUpdateClick = e => {
+    e.preventDefault();
+    const { id, firestore } = props;
+
+    setIsCompleted((isCompleted = !isCompleted));
+
+    firestore
+      .collection("items")
+      .doc(id)
+      .update({ isCompleted: isCompleted })
+      .catch(err => console.log(err))
+      .then(console.log("success"));
+  };
 
   const onDeleteClick = e => {
     e.preventDefault();
@@ -22,6 +28,23 @@ const TodoItem = props => {
       .catch(err => console.log(err))
       .then(console.log("success"));
   };
+
+  const status = isCompleted ? (
+    <span className="badge badge-success d-block ml-auto">Completed</span>
+  ) : (
+    <span className="badge badge-secondary d-block ml-auto">Not Completed</span>
+  );
+
+  const statusSwitchBtn = (
+    <button
+      onClick={onCompletedUpdateClick}
+      className={`btn btn-block btn-sm btn-${
+        isCompleted ? "secondary" : "success"
+      }`}
+    >
+      {isCompleted ? "Cancel" : "Complete"}
+    </button>
+  );
 
   return (
     <div className="col-md-6">
@@ -34,13 +57,8 @@ const TodoItem = props => {
           <p className="card-text">{content}</p>
         </div>
         <div className="card-body">
-          <a href="#!" className="btn btn-success btn-block btn-sm">
-            Complete
-          </a>
-          <Link
-            href={`/edit/${id}`}
-            className="btn btn-primary btn-block btn-sm"
-          >
+          {statusSwitchBtn}
+          <Link to={`/edit/${id}`} className="btn btn-primary btn-block btn-sm">
             Edit
           </Link>
           <button
