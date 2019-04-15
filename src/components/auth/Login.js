@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 // import { compose } from "redux";
 // import { connect } from "react-redux";
 import firebase from "firebase";
-import { firebaseConnect } from "react-redux-firebase";
+import { firebaseConnect, withFirebase } from "react-redux-firebase";
 
 const Login = props => {
   const [user, setUser] = useState({
@@ -78,4 +78,4 @@ Login.propTypes = {
   firebase: PropTypes.object.isRequired
 };
 
-export default firebaseConnect()(Login);
+export default withFirebase(Login);
