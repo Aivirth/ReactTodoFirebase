@@ -6,6 +6,7 @@ import AppNavbar from "./components/layout/AppNavbar";
 import Dashboard from "./components/layout/Dashboard";
 import AddItem from "./components/todo/AddItem";
 import EditItem from "./components/todo/EditItem";
+import Login from "./components/auth/Login";
 
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
                 <Route path="/" exact component={Dashboard} />
                 <Route path="/add" exact component={AddItem} />
                 <Route path="/edit/:id" exact component={EditItem} />
+                <Route path="/login" exact component={Login} />
               </Switch>
             </div>
           </div>
