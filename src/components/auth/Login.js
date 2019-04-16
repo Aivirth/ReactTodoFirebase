@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 
 // import { compose } from "redux";
 // import { connect } from "react-redux";
+
+import axios from "axios";
 import firebase from "firebase";
 import { firebaseConnect, withFirebase } from "react-redux-firebase";
 
@@ -20,13 +22,33 @@ const Login = props => {
 
     const { email, password } = user;
 
+    const authData = {
+      email,
+      password,
+      returnSecureToken: true
+    };
+
+    axios
+      .post(
+        "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyC_X4FeystKjgU6HTS_H2V7LMd3GaFkPsg",
+        authData
+      )
+      .then(response => console.log(response))
+      .catch(err => console.log(err));
+
+    // firebase
+    //   .login({
+    //     email,
+    //     password
+    //   })
+    //   .catch(err => console.log("invalid login credentials"))
+    //   .then(props.history.push("/"));
+
     firebase
-      .login({
-        email,
-        password
-      })
-      .catch(err => console.log("invalid login credentials"))
-      .then(props.history.push("/"));
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(({ user }) => console.log(user))
+      .catch(error => console.log(error));
   };
   return (
     <div className="row">
