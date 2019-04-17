@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionsTypes";
 import axios from "axios";
 
-const API_KEY = "AIzaSyA7K0-ujRHqxWAVezbTc2HH1CXHheY0Jyk";
+const API_KEY = "AIzaSyC_X4FeystKjgU6HTS_H2V7LMd3GaFkPsg";
 
 export const authStart = () => {
   return {
@@ -50,7 +50,7 @@ export const auth = (email, password, isSignup) => {
       returnSecureToken: true
     };
     let url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${API_KEY}`;
-    if (!isSignup) {
+    if (isSignup) {
       url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${API_KEY}`;
     }
     axios

@@ -1,26 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 // import { compose } from "redux";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
+import * as actions from "../../redux/actions/index";
 
-import axios from "axios";
 import firebase from "firebase";
 import { firebaseConnect, withFirebase } from "react-redux-firebase";
 
-const Login = props => {
-  const [user, setUser] = useState({
+class Login extends React.Component {
+  state = {
     email: "",
-    password: ""
-  });
+    password: "",
+    isSignup: false
+  };
 
-  const onInputChange = e =>
-    setUser({ ...user, [e.target.name]: e.target.value });
+  componentDidMount() {
+    if (this.props.authRedirectPath === "/") {
+      this.props.onSetAuthRedirectPath();
+    }
+  }
 
-  const onFormSubmit = e => {
+  toggleSignUpStatus = e => {
     e.preventDefault();
 
-    const { email, password } = user;
+    this.setState({ isSignup: !this.state.isSignup });
+  };
+
+  onInputChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onFormSubmit = e => {
+    e.preventDefault();
+
+    const { email, password } = this.state;
 
     const authData = {
       email,
@@ -28,76 +42,99 @@ const Login = props => {
       returnSecureToken: true
     };
 
-    axios
-      .post(
-        "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyC_X4FeystKjgU6HTS_H2V7LMd3GaFkPsg",
-        authData
-      )
-      .then(response => console.log(response))
-      .catch(err => console.log(err));
-
-    // firebase
-    //   .login({
-    //     email,
-    //     password
-    //   })
-    //   .catch(err => console.log("invalid login credentials"))
-    //   .then(props.history.push("/"));
-
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(({ user }) => console.log(user))
-      .catch(error => console.log(error));
+    this.props.onAuth(
+      this.state.email,
+      this.state.password,
+      this.state.isSignup
+    );
   };
-  return (
-    <div className="row">
-      <div className="col-md-6 mx-auto">
-        <div className="card">
-          <div className="card-body">
-            <h1 className="text-center pb-4 pt-3">
-              <span className="text-primary">
-                <i className="fas fa-lock" /> Login
-              </span>
-            </h1>
-            <form onSubmit={onFormSubmit}>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
+
+  render() {
+    const { email, password, isSignup } = this.state;
+
+    const isSignuUpButton = (
+      <button
+        onClick={this.toggleSignUpStatus}
+        className={`btn btn-${isSignup ? "success" : "secondary"} `}
+      >
+        {isSignup ? "yes" : "no"}
+      </button>
+    );
+    return (
+      <div className="row">
+        <div className="col-md-6 mx-auto">
+          <div className="card">
+            <div className="card-body">
+              <h1 className="text-center pb-4 pt-3">
+                <span className="text-primary">
+                  <i className="fas fa-lock" /> Login
+                </span>
+              </h1>
+              <form onSubmit={this.onFormSubmit}>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    required
+                    value={email}
+                    onChange={this.onInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    required
+                    value={password}
+                    onChange={this.onInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="isSignup">Already Registered? </label>
+                  {isSignuUpButton}
+                </div>
                 <input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  required
-                  value={user.email}
-                  onChange={onInputChange}
+                  type="submit"
+                  value="Submit"
+                  className="btn btn-primary btn-block"
                 />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  required
-                  value={user.password}
-                  onChange={onInputChange}
-                />
-              </div>
-              <input
-                type="submit"
-                value="Submit"
-                className="btn btn-primary btn-block"
-              />
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+}
+
+// Login.propTypes = {
+//   firebase: PropTypes.object.isRequired
+// };
+
+// export default withFirebase(Login);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, password, isSignup) =>
+      dispatch(actions.auth(email, password, isSignup)),
+    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/"))
+  };
 };
 
-Login.propTypes = {
-  firebase: PropTypes.object.isRequired
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isAuthenticated: state.auth.token !== null,
+    authRedirectPath: state.auth.authRedirectPath
+  };
 };
 
-export default withFirebase(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
