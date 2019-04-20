@@ -53,7 +53,10 @@ const TodoItem = props => {
           <h5 className="m-0">{title}</h5>
           {status}
         </div>
+
         <div className="card-body">
+          <p className="mb-0">User : </p>
+          <hr />
           <p className="card-text">{content}</p>
         </div>
         <div className="card-body">
