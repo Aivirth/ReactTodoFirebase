@@ -163,14 +163,17 @@ class EditItem extends React.Component {
   }
 }
 
-export default compose(
-  firestoreConnect(props => [
-    { collection: "items", storeAs: "item", doc: props.match.params.id }
-  ]),
+const mapStateToProps = (state, ownProps) => {
+  const id = ownProps.match.params.id;
+  const items = state.firestore.data.items;
+  const item = items ? items[id] : null;
+  return { item: item };
+};
 
-  connect(({ firestore: { ordered } }, props) => ({
-    item: ordered.item && ordered.item[0]
-  }))
+export default compose(
+  firestoreConnect(props => [{ collection: "items" }]),
+
+  connect(mapStateToProps)
 )(EditItem);
 
 EditItem.propTypes = {
