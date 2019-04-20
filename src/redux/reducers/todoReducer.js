@@ -20,10 +20,15 @@ const getTodoItems = (state, action) => {
   });
 };
 
+const addItem = (state, action) => {
+  console.log("AddItem:", action.item);
+  return null;
+};
+
 const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_ITEM:
-      return state;
+      return addItem(state, action);
 
     case actionTypes.GET_TODOITEMS:
       return getTodoItems(state, action);

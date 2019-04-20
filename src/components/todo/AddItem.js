@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import PropTypes from "prop-types";
-import { compose } from "redux";
+import { addItem } from "../../redux/actions";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
 import "react-datepicker/dist/react-datepicker.css";
 
 class AddItem extends Component {
@@ -28,16 +27,13 @@ class AddItem extends Component {
 
   onFormSubmit = e => {
     e.preventDefault();
-    const { firestore, history } = this.props;
+    const { addItem } = this.props;
     const newItem = { ...this.state };
     newItem.isCompleted = false;
     newItem.dueDate = newItem.startDate;
     delete newItem.startDate;
 
-    firestore
-      .add({ collection: "items" }, newItem)
-      .catch(err => console.log(err))
-      .then(history.push("/"));
+    addItem(newItem);
   };
 
   render() {
@@ -112,7 +108,16 @@ class AddItem extends Component {
   }
 }
 
-export default firestoreConnect()(AddItem);
+const mapDispatchToProps = dispatch => {
+  return {
+    addItem: item => dispatch(addItem(item))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AddItem);
 
 AddItem.propTypes = {
   firestore: PropTypes.object.isRequired
