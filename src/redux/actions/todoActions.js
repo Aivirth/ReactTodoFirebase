@@ -12,6 +12,6 @@ export const addItem = newItem => {
       .then(() => {
         dispatch({ type: actionsTypes.ADD_ITEM, item: newItem });
       })
-      .catch(err => console.log(err));
+      .catch(err => dispatch({ type: actionsTypes.ADD_ITEM_FAILURE, err }));
   };
 };

@@ -2,26 +2,15 @@ import * as actionTypes from "../actions/actionsTypes";
 import { updateObject } from "../../helpers/utilities";
 
 const initialState = {
-  items: [
-    {
-      title: "lorem",
-      content: "lorem did shdosds",
-      dueDate: new Date(),
-      isCompleted: false,
-      id: "jdodjdossls"
-    }
-  ]
-};
-
-const getTodoItems = (state, action) => {
-  return updateObject(state, {
-    error: null,
-    loading: true
-  });
+  items: []
 };
 
 const addItem = (state, action) => {
   console.log("AddItem:", action.item);
+  return null;
+};
+const addItemFailure = (state, action) => {
+  console.log(action.err);
   return null;
 };
 
@@ -30,8 +19,8 @@ const todoReducer = (state = initialState, action) => {
     case actionTypes.ADD_ITEM:
       return addItem(state, action);
 
-    case actionTypes.GET_TODOITEMS:
-      return getTodoItems(state, action);
+    case actionTypes.ADD_ITEM_FAILURE:
+      return addItemFailure(state, action);
 
     default:
       return state;

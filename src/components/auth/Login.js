@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import * as actions from "../../redux/actions/index";
 
 import firebase from "firebase";
-// import { firebaseConnect } from "react-redux-firebase";
 
 class Login extends React.Component {
   state = {
