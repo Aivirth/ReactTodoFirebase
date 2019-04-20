@@ -69,7 +69,7 @@ const TodoItem = props => {
           </button>
         </div>
         <div className="card-footer text-muted text-center">
-          {dueDate.toDate().toString()}
+          {/* {dueDate.toDate().toString()} */}
         </div>
       </div>
     </div>

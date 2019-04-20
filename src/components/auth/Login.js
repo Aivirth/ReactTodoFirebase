@@ -1,24 +1,56 @@
 import React from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
-// import { compose } from "redux";
+import { compose } from "redux";
 import { connect } from "react-redux";
 import * as actions from "../../redux/actions/index";
 
 import firebase from "firebase";
-import { firebaseConnect, withFirebase } from "react-redux-firebase";
+// import { firebaseConnect } from "react-redux-firebase";
 
 class Login extends React.Component {
   state = {
     email: "",
     password: "",
-    isSignup: false
+    isSignup: false,
+    authToken: null
   };
+
+  componentDidUpdate() {
+    if (this.state.authToken) {
+      const { email, password, isSignup } = this.state;
+
+      const authData = {
+        email,
+        password,
+        returnSecureToken: true
+      };
+      axios
+        .post(
+          `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyC_X4FeystKjgU6HTS_H2V7LMd3GaFkPsg`,
+          authData
+        )
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+      // this.props.onAuth(email, password, isSignup);
+    }
+  }
 
   componentDidMount() {
     if (this.props.authRedirectPath === "/") {
       this.props.onSetAuthRedirectPath();
     }
+
+    // if (this.state.authToken) {
+    //   const { email, password, isSignup } = this.state;
+    //   this.props.onAuth(email, password, isSignup);
+    // }
   }
 
   toggleSignUpStatus = e => {
@@ -36,17 +68,17 @@ class Login extends React.Component {
 
     const { email, password } = this.state;
 
-    const authData = {
-      email,
-      password,
-      returnSecureToken: true
-    };
-
-    this.props.onAuth(
-      this.state.email,
-      this.state.password,
-      this.state.isSignup
-    );
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(response => {
+        firebase
+          .auth()
+          .currentUser.getIdToken()
+          .then(data => this.setState({ authToken: data }))
+          .catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -115,26 +147,28 @@ class Login extends React.Component {
 //   firebase: PropTypes.object.isRequired
 // };
 
-// export default withFirebase(Login);
+export default Login;
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuth: (email, password, isSignup) =>
-      dispatch(actions.auth(email, password, isSignup)),
-    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/"))
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onAuth: (email, password, isSignup) =>
+//       dispatch(actions.auth(email, password, isSignup)),
+//     onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/"))
+//   };
+// };
 
-const mapStateToProps = state => {
-  return {
-    loading: state.auth.loading,
-    error: state.auth.error,
-    isAuthenticated: state.auth.token !== null,
-    authRedirectPath: state.auth.authRedirectPath
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+// const mapStateToProps = state => {
+//   return {
+//     loading: state.auth.loading,
+//     error: state.auth.error,
+//     isAuthenticated: state.auth.token !== null,
+//     authRedirectPath: state.auth.authRedirectPath
+//   };
+// };
+// export default compose(
+//   firebaseConnect(),
+//   connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+//   )
+// )(Login);

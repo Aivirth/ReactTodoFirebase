@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import firebase from "firebase";
-import { firebaseConnect } from "react-redux-firebase";
+// import { firebaseConnect } from "react-redux-firebase";
 
 class AppNavbar extends React.Component {
   state = {
@@ -12,21 +12,20 @@ class AppNavbar extends React.Component {
     userEmail: ""
   };
 
-  static getDerivedStateFromProps(props, state) {
-    const user = firebase.auth().currentUser;
-
-    if (user) {
-      return { isAuthenticated: true, userEmail: user.email };
-    } else {
-      return { isAuthenticated: false };
-    }
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   // const user = firebase.auth().currentUser;
+  //   // if (user) {
+  //   //   return { isAuthenticated: true, userEmail: user.email };
+  //   // } else {
+  //   //   return { isAuthenticated: false };
+  //   // }
+  // }
 
   onLogoutClick = e => {
     e.preventDefault();
-    const { firebase } = this.props;
+    // const { firebase } = this.props;
 
-    firebase.logout();
+    // firebase.logout();
   };
 
   render() {
@@ -91,14 +90,16 @@ class AppNavbar extends React.Component {
   }
 }
 
-AppNavbar.propTypes = {
-  firebase: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
-};
+// AppNavbar.propTypes = {
+//   firebase: PropTypes.object.isRequired,
+//   auth: PropTypes.object.isRequired
+// };
 
-export default compose(
-  firebaseConnect(),
-  connect((state, props) => ({
-    auth: state.firebase.auth
-  }))
-)(AppNavbar);
+// export default compose(
+//   firebaseConnect(),
+//   connect((state, props) => ({
+//     auth: state.firebase.auth
+//   }))
+// )(AppNavbar);
+
+export default AppNavbar;

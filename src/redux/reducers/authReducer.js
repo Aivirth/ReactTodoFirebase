@@ -1,18 +1,11 @@
 import * as actionTypes from "../actions/actionsTypes";
 import { updateObject } from "../../helpers/utilities";
 
-const initialState = {
-  token: null,
-  userId: null,
-  error: null,
-  loading: false,
-  authRedirectPath: "/"
-};
+const initialState = {};
 
 const authStart = (state, action) => {
   return updateObject(state, {
-    error: null,
-    loading: true
+    error: null
   });
 };
 
@@ -20,8 +13,7 @@ const authSuccess = (state, action) => {
   return updateObject(state, {
     token: action.idToken,
     userId: action.userId,
-    error: null,
-    loading: false
+    error: null
   });
 };
 
@@ -33,8 +25,7 @@ const setAuthRedirectPath = (state, action) => {
 
 const authFail = (state, action) => {
   return updateObject(state, {
-    error: action.error,
-    loading: false
+    error: action.error
   });
 };
 
@@ -42,7 +33,7 @@ const authLogout = (state, action) => {
   return updateObject(state, { token: null, userId: null });
 };
 
-const reducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
       return authStart(state, action);
@@ -64,4 +55,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default authReducer;
