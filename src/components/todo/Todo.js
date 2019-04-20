@@ -2,9 +2,9 @@ import React from "react";
 import TodoItem from "./TodoItem";
 import PropTypes from "prop-types";
 
-// import { compose } from "redux";
 import { connect } from "react-redux";
-// import { firestoreConnect, firebaseConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 // import firebase, { auth } from "firebase";
 
 import Spinner from "../Spinner/Spinner";
@@ -82,9 +82,13 @@ class Todo extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state);
   return {
-    items: state.todo.items
+    items: state.firestore.ordered.items
   };
 };
 
-export default connect(mapStateToProps)(Todo);
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "items" }])
+)(Todo);
