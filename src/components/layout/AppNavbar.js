@@ -6,7 +6,8 @@ import { connect } from "react-redux";
 import { signOut } from "../../redux/actions/index";
 
 const AppNavbar = props => {
-  const isAuthenticated = true;
+  const authID = props.auth.uid;
+  const userEmail = props.auth.email;
 
   const onLogoutClick = e => {
     e.preventDefault();
@@ -30,7 +31,7 @@ const AppNavbar = props => {
         </button>
         <div className="collapse navbar-collapse" id="navbarMain">
           <ul className="navbar-nav mr-auto">
-            {isAuthenticated ? (
+            {authID ? (
               <li className="nav-item">
                 <Link to="/" className="nav-link">
                   Dashboard
@@ -39,11 +40,17 @@ const AppNavbar = props => {
             ) : null}
           </ul>
           <ul className="navbar-nav ml-auto">
-            {isAuthenticated ? (
+            {authID ? (
               <>
                 <li className="nav-item">
-                  <a href="#!" className="nav-link">
-                    {/* {state.userEmail} */}
+                  <a
+                    href="#!"
+                    className="nav-link"
+                    onClick={e => {
+                      e.preventDefault();
+                    }}
+                  >
+                    {userEmail}
                   </a>
                 </li>
                 <li className="nav-item">
@@ -75,7 +82,8 @@ const AppNavbar = props => {
 
 const mapStateToProps = state => {
   return {
-    firebase: state.firebase
+    firebase: state.firebase,
+    auth: state.firebase.auth
   };
 };
 
