@@ -1,46 +1,31 @@
 import * as actionTypes from "../actions/actionsTypes";
 import { updateObject } from "../../helpers/utilities";
 
-const initialState = {};
+const initialState = {
+  authError: null
+};
 
-const authStart = (state, action) => {
+const loginError = (state, action) => {
+  console.log("login failed");
   return updateObject(state, {
-    error: null
+    authError: "Login error"
   });
 };
 
-const authSuccess = (state, action) => {
+const loginSuccess = (state, action) => {
+  console.log("login success");
   return updateObject(state, {
-    token: action.idToken,
-    userId: action.userId,
-    error: null
+    authError: null
   });
-};
-
-const authFail = (state, action) => {
-  return updateObject(state, {
-    error: action.error
-  });
-};
-
-const authLogout = (state, action) => {
-  return updateObject(state, { token: null, userId: null });
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.AUTH_START:
-      return authStart(state, action);
+    case actionTypes.LOGIN_ERROR:
+      return loginError(state, action);
 
-    case actionTypes.AUTH_SUCCESS:
-      return authSuccess(state, action);
-
-    case actionTypes.AUTH_FAIL:
-      return authFail(state, action);
-
-    case actionTypes.AUTH_LOGOUT:
-      return authLogout(state, action);
-
+    case actionTypes.LOGIN_SUCCESS:
+      return loginSuccess(state, action);
     default:
       return state;
   }
