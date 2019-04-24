@@ -19,6 +19,16 @@ const loginSuccess = (state, action) => {
   });
 };
 
+const signOutError = (state, action) => {
+  console.log("logout error");
+  return state;
+};
+
+const signOutSuccess = (state, action) => {
+  console.log("logout success");
+  return state;
+};
+
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_ERROR:
@@ -26,6 +36,13 @@ const authReducer = (state = initialState, action) => {
 
     case actionTypes.LOGIN_SUCCESS:
       return loginSuccess(state, action);
+
+    case actionTypes.SIGNOUT_SUCCESS:
+      return signOutSuccess(state, action);
+
+    case actionTypes.SIGNOUT_ERROR:
+      return signOutError(state, action);
+
     default:
       return state;
   }

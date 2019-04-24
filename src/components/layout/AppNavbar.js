@@ -2,16 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import firebase from "firebase";
 
-const AppNavbar = () => {
+import { signOut } from "../../redux/actions/index";
+
+const AppNavbar = props => {
   const isAuthenticated = true;
 
   const onLogoutClick = e => {
     e.preventDefault();
-    // const { firebase } = this.props;
-
-    // firebase.logout();
+    props.signOut();
   };
 
   return (
@@ -74,18 +73,19 @@ const AppNavbar = () => {
 //   auth: PropTypes.object.isRequired
 // };
 
-// export default compose(
-//   firebaseConnect(),
-//   connect((state, props) => ({
-//     auth: state.firebase.auth
-//   }))
-// )(AppNavbar);
-
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    firebase
+    firebase: state.firebase
   };
 };
 
-export default connect(mapStateToProps)(AppNavbar);
+const mapDispatchToProps = dispatch => {
+  return {
+    signOut: () => dispatch(signOut())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppNavbar);
