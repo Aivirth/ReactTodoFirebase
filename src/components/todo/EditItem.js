@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
@@ -63,7 +63,7 @@ class EditItem extends React.Component {
     firestore
       .update({ collection: "items", doc: item.id }, updatedItem)
       .catch(err => console.log(err))
-      .then(history.push("/"));
+      .then(() => <Redirect to="/" />);
   };
 
   render() {
