@@ -16,11 +16,14 @@ class Todo extends React.Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    const { items } = props;
+    const { items, authorId } = props;
 
     if (items) {
-      const totalItems = items.length;
-      const totalCompleted = items.filter(item => item.isCompleted).length;
+      const filteredItems = items.filter(item => item.authorId === authorId);
+
+      const totalItems = filteredItems.length;
+      const totalCompleted = filteredItems.filter(item => item.isCompleted)
+        .length;
 
       return {
         totalCompleted,
@@ -82,7 +85,8 @@ class Todo extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    items: state.firestore.ordered.items
+    items: state.firestore.ordered.items,
+    authorId: state.firebase.auth.uid
   };
 };
 

@@ -57,7 +57,7 @@ class EditItem extends React.Component {
 
   onFormSubmit = e => {
     e.preventDefault();
-    const { firestore, history, item, match } = this.props;
+    const { firestore, history, match } = this.props;
     const updatedItem = { ...this.state };
 
     firestore
