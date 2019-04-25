@@ -12,7 +12,8 @@ import * as actions from "../../redux/actions/index";
 class Todo extends React.Component {
   state = {
     totalCompleted: 0,
-    totalItems: 0
+    totalItems: 0,
+    items: []
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -27,7 +28,8 @@ class Todo extends React.Component {
 
       return {
         totalCompleted,
-        totalItems
+        totalItems,
+        items: filteredItems
       };
     }
 
@@ -35,7 +37,7 @@ class Todo extends React.Component {
   }
 
   render() {
-    const { items } = this.props;
+    const { items } = this.state;
     const { totalCompleted, totalItems } = this.state;
 
     let output = (
@@ -60,6 +62,7 @@ class Todo extends React.Component {
           isCompleted={item.isCompleted}
           id={item.id}
           key={item.id}
+          authorId={item.authorId}
         />
       ));
 

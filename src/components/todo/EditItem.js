@@ -71,8 +71,19 @@ class EditItem extends React.Component {
   };
 
   render() {
-    const { item } = this.props;
+    const { item, authError } = this.props;
     let output = <Spinner />;
+
+    if (authError) {
+      output = (
+        <div className="alert alert-danger" role="alert">
+          <strong>
+            PERMISSION DENIED : you are trying to access an item created by
+            another user
+          </strong>
+        </div>
+      );
+    }
 
     if (item) {
       let completeToggle = (
@@ -168,12 +179,15 @@ class EditItem extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state);
   const id = ownProps.match.params.id;
+  const currentUserId = state.firebase.auth.uid;
   const items = state.firestore.data.items;
   const item = items ? items[id] : null;
+  const isItemFromCurrentUser = item ? item.authorId === currentUserId : null;
+
   return {
-    item: item
+    item: isItemFromCurrentUser ? item : null,
+    authError: !isItemFromCurrentUser
   };
 };
 
