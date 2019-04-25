@@ -34,6 +34,8 @@ class AddItem extends Component {
     delete newItem.startDate;
 
     addItem(newItem);
+
+    this.props.history.push("/");
   };
 
   render() {

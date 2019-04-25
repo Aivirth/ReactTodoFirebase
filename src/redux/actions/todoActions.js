@@ -4,10 +4,14 @@ export const addItem = newItem => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
 
+    const profile = getState().firebase.profile;
+    const authorId = getState().firebase.auth.uid;
     firestore
       .collection("items")
       .add({
-        ...newItem
+        ...newItem,
+        authorNickname: profile.nickname,
+        authorId: authorId
       })
       .then(() => {
         dispatch({ type: actionsTypes.ADD_ITEM, item: newItem });
