@@ -23,3 +23,25 @@ export const signOut = () => {
       .then(() => dispatch({ type: actionTypes.SIGNOUT_SUCCESS }));
   };
 };
+
+export const register = newUser => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(newUser.email, newUser.password)
+      .then(response => {
+        return firestore
+          .collection("user")
+          .doc(response.user.uid)
+          .set({
+            email: newUser.email,
+            nickname: newUser.nickname
+          });
+      })
+      .then(() => dispatch({ type: actionTypes.REGISTER_SUCCESS }))
+      .catch(err => dispatch({ type: actionTypes.REGISTER_ERROR, err }));
+  };
+};

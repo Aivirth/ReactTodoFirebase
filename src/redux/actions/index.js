@@ -1,3 +1,3 @@
-export { signIn, signOut } from "./authActions";
+export { signIn, signOut, register } from "./authActions";
 
 export { addItem } from "./todoActions";

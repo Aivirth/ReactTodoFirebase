@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { signIn } from "../../redux/actions/index";
-import firebase from "firebase";
 
 const Login = props => {
   const [user, setUser] = useState({
