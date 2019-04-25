@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
-// import firebase, { auth } from "firebase";
 
 import Spinner from "../Spinner/Spinner";
 import * as actions from "../../redux/actions/index";

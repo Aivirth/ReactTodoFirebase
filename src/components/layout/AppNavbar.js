@@ -7,7 +7,8 @@ import { signOut } from "../../redux/actions/index";
 
 const AppNavbar = props => {
   const authID = props.auth.uid;
-  const userEmail = props.auth.email;
+
+  const { profile } = props;
 
   const onLogoutClick = e => {
     e.preventDefault();
@@ -50,7 +51,7 @@ const AppNavbar = props => {
                       e.preventDefault();
                     }}
                   >
-                    {userEmail}
+                    {profile.nickname} | {profile.email}
                   </a>
                 </li>
                 <li className="nav-item">
@@ -88,6 +89,7 @@ const AppNavbar = props => {
 const mapStateToProps = state => {
   return {
     firebase: state.firebase,
+    profile: state.firebase.profile,
     auth: state.firebase.auth
   };
 };
