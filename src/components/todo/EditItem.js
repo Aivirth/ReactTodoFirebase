@@ -9,7 +9,7 @@ import DatePicker from "react-datepicker";
 
 class EditItem extends React.Component {
   state = {
-    id: "",
+    authorId: "",
     title: "",
     content: "",
     dueDate: null,
@@ -19,15 +19,15 @@ class EditItem extends React.Component {
   static getDerivedStateFromProps(props, state) {
     const { item } = props;
 
-    if (item && item.id !== state.id) {
-      const { title, content, dueDate, isCompleted, id } = item;
+    if (item && item.authorId !== state.authorId) {
+      const { title, content, dueDate, isCompleted, authorId } = item;
 
       return {
         title,
         content,
         dueDate: dueDate.toDate(),
         isCompleted,
-        id
+        authorId
       };
     }
 
@@ -57,13 +57,17 @@ class EditItem extends React.Component {
 
   onFormSubmit = e => {
     e.preventDefault();
-    const { firestore, history, item } = this.props;
+    const { firestore, history, item, match } = this.props;
     const updatedItem = { ...this.state };
 
     firestore
-      .update({ collection: "items", doc: item.id }, updatedItem)
-      .catch(err => console.log(err))
-      .then(() => <Redirect to="/" />);
+      .collection("items")
+      .doc(match.params.id)
+      .update({ ...updatedItem })
+      .then(() => {
+        history.push("/");
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -164,15 +168,17 @@ class EditItem extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(state);
   const id = ownProps.match.params.id;
   const items = state.firestore.data.items;
   const item = items ? items[id] : null;
-  return { item: item };
+  return {
+    item: item
+  };
 };
 
 export default compose(
-  firestoreConnect(props => [{ collection: "items" }]),
-
+  firestoreConnect([{ collection: "items" }]),
   connect(mapStateToProps)
 )(EditItem);
 
