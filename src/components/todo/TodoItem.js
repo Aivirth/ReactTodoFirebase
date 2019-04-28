@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { firestoreConnect } from "react-redux-firebase";
+import moment from "moment";
+
 const TodoItem = props => {
   const { title, content, dueDate, id } = props;
   let [isCompleted, setIsCompleted] = useState(props.isCompleted);
+  let [deadLineStatus, setDeadLineStatus] = useState("normal");
+
+  useEffect(() => {
+    const deadLineInSeconds = dueDate.seconds;
+    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+    const differenceInSeconds = deadLineInSeconds - currentTimeInSeconds;
+    //48 hours
+    const warningLimit = 172800;
+
+    if (differenceInSeconds <= warningLimit && differenceInSeconds >= 0) {
+      setDeadLineStatus("warning");
+    }
+
+    if (differenceInSeconds < 0) {
+      setDeadLineStatus("missed");
+    }
+  }, []);
 
   const onCompletedUpdateClick = e => {
     e.preventDefault();
@@ -30,9 +49,11 @@ const TodoItem = props => {
   };
 
   const status = isCompleted ? (
-    <span className="badge badge-success d-block ml-auto">Completed</span>
+    <span className="badge badge-success d-inline-block ml-2">Completed</span>
   ) : (
-    <span className="badge badge-secondary d-block ml-auto">Not Completed</span>
+    <span className="badge badge-secondary d-inline-block ml-2">
+      Not Completed
+    </span>
   );
 
   const statusSwitchBtn = (
@@ -46,12 +67,22 @@ const TodoItem = props => {
     </button>
   );
 
+  let deadLineBadge =
+    deadLineStatus === "warning" ? (
+      <span className="badge badge-warning d-inline-block">Expires Soon</span>
+    ) : (
+      <span className="badge badge-danger d-inline-block">Expired</span>
+    );
+
   return (
     <div className="col-md-6">
       <div className="card mb-4">
         <div className="card-header d-flex align-items-center">
           <h5 className="m-0">{title}</h5>
-          {status}
+          <div className="ml-auto">
+            {deadLineStatus !== "normal" ? deadLineBadge : null}
+            {status}
+          </div>
         </div>
 
         <div className="card-body">
@@ -70,7 +101,7 @@ const TodoItem = props => {
           </button>
         </div>
         <div className="card-footer text-muted text-center">
-          {dueDate.toDate().toString()}
+          Deadline: {moment(dueDate.toDate()).calendar()}
         </div>
       </div>
     </div>
