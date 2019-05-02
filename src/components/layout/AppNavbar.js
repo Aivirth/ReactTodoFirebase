@@ -72,6 +72,16 @@ const AppNavbar = props => {
                 </li>
               </>
             )}
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                href="https://github.com/Aivirth/ReactTodoFirebase"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-github" />
+              </a>
+            </li>
           </ul>
         </div>
       </div>
