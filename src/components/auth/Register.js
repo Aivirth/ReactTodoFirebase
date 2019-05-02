@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-
 import { connect } from "react-redux";
 import { register } from "../../redux/actions/index";
 
@@ -24,6 +22,26 @@ const Register = props => {
   return (
     <div className="row">
       <div className="col-md-6 mx-auto">
+        <div className="alert alert-danger" role="alert">
+          <h5>Disclaimer</h5>
+          <p style={{ fontSize: "0.8rem" }}>
+            This is a portfolio application not meant to be used in real life
+            scenarios, you are invited to <strong>not</strong> use your real
+            email or write sensible data.
+          </p>
+          <p style={{ fontSize: "0.8rem" }}>
+            If you want to test the registration procedure you are invited to
+            write a fake email or use a service like{" "}
+            <a
+              href="https://10minutemail.com/10MinuteMail/index.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              10MinuteMail.com
+            </a>
+          </p>
+        </div>
+
         <div className="card">
           <div className="card-body">
             <h1 className="text-center pb-4 pt-3">
@@ -83,10 +101,6 @@ const Register = props => {
     </div>
   );
 };
-
-// Register.propTypes = {
-//   firebase: PropTypes.object.isRequired
-// };
 
 const mapDispatchToProps = dispatch => {
   return {

@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
 import { signOut } from "../../redux/actions/index";
 
 const AppNavbar = props => {
@@ -80,11 +78,6 @@ const AppNavbar = props => {
     </nav>
   );
 };
-
-// AppNavbar.propTypes = {
-//   firebase: PropTypes.object.isRequired,
-//   auth: PropTypes.object.isRequired
-// };
 
 const mapStateToProps = state => {
   return {

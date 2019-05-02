@@ -1,14 +1,9 @@
 import React from "react";
 import TodoItem from "./TodoItem";
-import PropTypes from "prop-types";
-
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
-
 import Spinner from "../Spinner/Spinner";
-import * as actions from "../../redux/actions/index";
-
 class Todo extends React.Component {
   state = {
     totalCompleted: 0,

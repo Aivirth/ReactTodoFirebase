@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { signIn } from "../../redux/actions/index";
@@ -23,6 +22,14 @@ const Login = props => {
   return (
     <div className="row">
       <div className="col-md-6 mx-auto">
+        <div className="alert alert-danger" role="alert">
+          <h5>Disclaimer</h5>
+          <p style={{ fontSize: "0.8rem" }}>
+            This is a portfolio application not meant to be used in real life
+            scenarios, you are invited to <strong>not</strong> use your real
+            name, address, personal informations or write sensible data.
+          </p>
+        </div>
         <div className="card">
           <div className="card-body">
             <h1 className="text-center pb-4 pt-3">
@@ -71,10 +78,6 @@ const Login = props => {
     </div>
   );
 };
-
-// Login.propTypes = {
-//   firebase: PropTypes.object.isRequired
-// };
 
 const mapDispatchToProps = dispatch => {
   return {
