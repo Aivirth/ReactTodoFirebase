@@ -79,7 +79,7 @@ const AppNavbar = props => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <i class="fab fa-github" />
+                <i className="fab fa-github" />
               </a>
             </li>
           </ul>
